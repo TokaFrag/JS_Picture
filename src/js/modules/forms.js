@@ -1,4 +1,3 @@
-import checkNumInputs from "./checkNumInputs";
 
 const forms = () => {
     const form = document.querySelectorAll('form'),
@@ -6,7 +5,6 @@ const forms = () => {
         formClose = document.querySelector('.popup-close'),
         upload = document.querySelectorAll('[name="upload"]');
 
-    checkNumInputs('input[name="user_phone"]');
 
     const message = {
         loading: 'Загрузка...',
