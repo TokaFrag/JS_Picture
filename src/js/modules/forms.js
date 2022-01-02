@@ -1,15 +1,14 @@
+import { postData } from '../services/requests';
 
 const forms = () => {
     const form = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
-        formClose = document.querySelector('.popup-close'),
         upload = document.querySelectorAll('[name="upload"]');
-
 
     const message = {
         loading: 'Загрузка...',
         success: 'Спасибо! Скоро мы с вами свяжемся',
-        failure: 'Что-то пошло не так... ',
+        failure: 'Что-то пошло не так...',
         spinner: 'assets/img/spinner.gif',
         ok: 'assets/img/ok.png',
         fail: 'assets/img/fail.png'
@@ -20,29 +19,22 @@ const forms = () => {
         question: 'assets/question.php'
     };
 
-    const postData = async (url, data) => {
-        let res = await fetch(url, {
-            method: 'POST',
-            body: data
-        });
-        return await res.text();
-    };
-
     const clearInputs = () => {
         inputs.forEach(item => {
             item.value = '';
         });
         upload.forEach(item => {
-            item.previousElementSibling.textContent = 'Файл не выбран';
+            item.previousElementSibling.textContent = "Файл не выбран";
         });
     };
 
     upload.forEach(item => {
         item.addEventListener('input', () => {
+            console.log(item.files[0]);
             let dots;
             const arr = item.files[0].name.split('.');
 
-            arr[0].length > 6 ? dots = '...' : dots = '.';
+            arr[0].length > 6 ? dots = "..." : dots = '.';
             const name = arr[0].substring(0, 6) + dots + arr[1];
             item.previousElementSibling.textContent = name;
         });
@@ -66,7 +58,6 @@ const forms = () => {
             statusImg.classList.add('animated', 'fadeInUp');
             statusMessage.appendChild(statusImg);
 
-
             let textMessage = document.createElement('div');
             textMessage.textContent = message.loading;
             statusMessage.appendChild(textMessage);
@@ -76,24 +67,25 @@ const forms = () => {
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
 
-
-            postData(api, formData).then(res => {
-                console.log(res);
-                statusImg.setAttribute('src', message.ok);
-                textMessage.textContent = message.success;
-            }).catch(() => {
-                statusImg.setAttribute('src', message.fail);
-                statusMessage.textContent = message.failure;
-            }).finally(() => {
-                clearInputs();
-                setTimeout(() => {
-                    statusMessage.remove();
-                    item.style.display = 'block';
-                    item.classList.remove('fadeOutUp');
-                    item.classList.add('fadeInUp');
-
-                }, 5000);
-            });
+            postData(api, formData)
+                .then(res => {
+                    console.log(res);
+                    statusImg.setAttribute('src', message.ok);
+                    textMessage.textContent = message.success;
+                })
+                .catch(() => {
+                    statusImg.setAttribute('src', message.fail);
+                    textMessage.textContent = message.failure;
+                })
+                .finally(() => {
+                    clearInputs();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                        item.style.display = 'block';
+                        item.classList.remove('fadeOutUp');
+                        item.classList.add('fadeInUp');
+                    }, 5000);
+                });
         });
     });
 };

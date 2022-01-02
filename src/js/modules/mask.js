@@ -13,7 +13,6 @@ const mask = (selector) => {
             range.moveStart('character', pos);
             range.select();
         }
-
     };
 
     function createMask(event) {
@@ -35,7 +34,7 @@ const mask = (selector) => {
                 this.value = '';
             }
         } else {
-            setCursorPosition(this.value.length, this)
+            setCursorPosition(this.value.length, this);
         }
     }
 
