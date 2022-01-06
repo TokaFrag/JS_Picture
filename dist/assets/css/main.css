@@ -1262,6 +1262,9 @@ h4 {
   text-align: center;
 }
 
+.center-filter{
+  margin: 0 auto;
+}
 
 @media (max-width: 1399px) {
   .paints {
